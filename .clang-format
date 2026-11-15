@@ -5,28 +5,29 @@ AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignEscapedNewlines: Left
 AlignOperands: Align
-AlignTrailingComments:
-  Kind: Never
-AllowAllArgumentsOnNextLine: false
+AlignTrailingComments: false
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Never
-AllowShortLambdasOnASingleLine: All
+AllowShortLambdasOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
-BreakTemplateDeclarations: Yes
+AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
-BinPackParameters: OnePerLine
+BinPackParameters: false
 BreakAfterJavaFieldAnnotations: false
 BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Allman
 BreakBeforeTernaryOperators: true
+BreakConstructorInitializersBeforeComma: false
 BreakStringLiterals: false
-ColumnLimit: 160
-PackConstructorInitializers: NextLine
-ConstructorInitializerIndentWidth: 2
+ColumnLimit: 0
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: false
 DerivePointerAlignment: false
@@ -38,20 +39,21 @@ IndentWrappedFunctionNames: true
 KeepEmptyLinesAtTheStartOfBlocks: false
 Language: Cpp
 MaxEmptyLinesToKeep: 1
-NamespaceIndentation: None
+NamespaceIndentation: Inner
 PointerAlignment: Left
-ReflowComments: Never
-SortIncludes: Never
-SortUsingDeclarations: Never
+ReflowComments: false
+SortIncludes: false
 SpaceAfterCStyleCast: true
 SpaceAfterLogicalNot: true
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeCpp11BracedList: true
 SpaceBeforeParens: NonEmptyParentheses
+SpaceInEmptyParentheses: false
 SpaceBeforeInheritanceColon: true
-SpacesInAngles: Never
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: true
-SpacesInParens: Never
+SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard: "c++17"
 TabWidth: 4
@@ -59,8 +61,7 @@ UseTab: Never
 ---
 Language: ObjC
 BasedOnStyle: Chromium
-AlignTrailingComments:
-  Kind: Always
+AlignTrailingComments: true
 BreakBeforeBraces: Allman
 ColumnLimit: 0
 IndentWidth: 4

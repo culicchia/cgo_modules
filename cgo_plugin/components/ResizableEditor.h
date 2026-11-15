@@ -4,11 +4,9 @@ namespace cgo
 class ResizableEditor : public juce::AudioProcessorEditor
 {
 public:
-    ResizableEditor (juce::AudioProcessor& processor,
-                     std::unique_ptr<juce::Component> component,
-                     float defaultScaleFactor = 1.0f,
-                     float minScaleFactor = 0.5f,
-                     float maxScaleFactor = 2.0f);
+    ResizableEditor (juce::AudioProcessor& processor, 
+                     std::unique_ptr<juce::Component> component, 
+                     float defaultScaleFactor = 0.5f);
 
     ~ResizableEditor() override;
 
@@ -20,15 +18,13 @@ private:
 
     std::unique_ptr<juce::Component> component;
 
-    const int baseWidth;
-    const int baseHeight;
+    const int maxWidth;
+    const int maxHeight;
     const float defaultScaleFactor;
-    const float minScaleFactor;
-    const float maxScaleFactor;
 
     juce::PropertiesFile propertiesFile;
 
-    JUCE_DECLARE_NON_COPYABLE (ResizableEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ResizableEditor)
 };
 
 } // namespace cgo

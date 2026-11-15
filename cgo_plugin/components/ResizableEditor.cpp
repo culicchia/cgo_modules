@@ -7,58 +7,59 @@ static juce::PropertiesFile::Options getPropertiesFileOptions()
 {
     juce::PropertiesFile::Options options;
 
-#if defined(JucePlugin_Name) && defined(JucePlugin_Manufacturer)
+   #if defined(JucePlugin_Name) && defined(JucePlugin_Manufacturer)
     options.applicationName = JucePlugin_Name;
     options.folderName = JucePlugin_Manufacturer;
-#else
+   #else
     jassertfalse;
-#endif
+   #endif
 
     options.filenameSuffix = ".settings";
     options.osxLibrarySubFolder = "Application Support";
-
+    
     return options;
 }
 
-ResizableEditor::ResizableEditor (juce::AudioProcessor& proc, std::unique_ptr<juce::Component> comp, float defaultScale, float minScale, float maxScale)
-  : AudioProcessorEditor (proc),
+ResizableEditor::ResizableEditor (juce::AudioProcessor& proc, 
+                                  std::unique_ptr<juce::Component> comp, 
+                                  float defaultScale)
+    : AudioProcessorEditor (proc),
     component (std::move (comp)),
-    baseWidth (component->getWidth()),
-    baseHeight (component->getHeight()),
+    maxWidth (component->getWidth()),
+    maxHeight (component->getHeight()),
     defaultScaleFactor (defaultScale),
-    minScaleFactor (minScale),
-    maxScaleFactor (maxScale),
     propertiesFile (getPropertiesFileOptions())
 {
-    jassert (minScaleFactor > 0.0f && minScaleFactor <= maxScaleFactor);
-
     addAndMakeVisible (*component);
 
-    const double scale = loadEditorScaleFactor();
-    setSize (juce::roundToInt (baseWidth * scale), juce::roundToInt (baseHeight * scale));
+    const float scale = loadEditorScaleFactor();
+    setSize (maxWidth * scale, maxHeight * scale);
 
     setResizable (false, true);
-    setResizeLimits (juce::roundToInt (baseWidth * minScaleFactor),
-                     juce::roundToInt (baseHeight * minScaleFactor),
-                     juce::roundToInt (baseWidth * maxScaleFactor),
-                     juce::roundToInt (baseHeight * maxScaleFactor));
-    getConstrainer()->setFixedAspectRatio (baseWidth / (double) baseHeight);
+    setResizeLimits (maxWidth / 4.0, maxHeight / 4.0, maxWidth, maxHeight);
+    getConstrainer()->setFixedAspectRatio (maxWidth / static_cast<double> (maxHeight));
 }
 
-ResizableEditor::~ResizableEditor() { propertiesFile.saveIfNeeded(); }
+ResizableEditor::~ResizableEditor()
+{
+    propertiesFile.saveIfNeeded();
+}
 
 void ResizableEditor::resized()
 {
-    const float scale = getWidth() / (float) baseWidth;
+    const float scale = getWidth() / static_cast<float> (maxWidth);
     component->setTransform (juce::AffineTransform::scale (scale, scale));
     saveEditorScaleFactor (scale);
 }
 
 double ResizableEditor::loadEditorScaleFactor() const
 {
-    return juce::jlimit ((double) minScaleFactor, (double) maxScaleFactor, propertiesFile.getDoubleValue ("scale", defaultScaleFactor));
+    return propertiesFile.getDoubleValue ("scale", defaultScaleFactor);
 }
 
-void ResizableEditor::saveEditorScaleFactor (double scale) { propertiesFile.setValue ("scale", scale); }
+void ResizableEditor::saveEditorScaleFactor (double scale)
+{
+    propertiesFile.setValue ("scale", scale);
+}
 
 } // namespace cgo
